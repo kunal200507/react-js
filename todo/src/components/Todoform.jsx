@@ -15,7 +15,9 @@ function TodoForm() {
     }
 
     return (
-        <form  className="flex">
+        <form  className="flex"
+        onSubmit={onAdd}
+        >
             <input
                 type="text"
                 placeholder="Write Todo..."
