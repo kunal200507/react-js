@@ -76,6 +76,7 @@ class DatabaseConfig {
 
         } catch (error) {
             console.log("Appwrite serive :: getPost :: error", error)
+            return false
         }
     }
 
@@ -88,22 +89,48 @@ class DatabaseConfig {
             })
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error)
+            return false
         }
     }
 
-    async fileUpload() {
+    async fileUpload(file) {
         try {
-            await this.bucket.createFile(
+            return await this.bucket.createFile(
                 {
                     bucketId: config.appwriteBucketId,
                     fileId: ID.unique(),
-                    file: document.getElementById('uploader').files[0]
+                    file: file
                 }
             )
 
         } catch (error) {
             console.log("Appwrite serive :: fileUpload :: error", error)
+            return false
         }
+    }
+
+    async deleteFile(fileId){
+        try {
+            return await this.bucket.deleteFile(
+                {
+                    bucketId: config.appwriteBucketId,
+                    fileId: fileId,
+                }
+            )
+            // return true
+        } catch (error) {
+            console.log("Appwrite serive :: deleteFile :: error", error)
+            return false
+        }
+    }
+
+    filePreview(fileId){
+            return this.bucket.getFilePreview(
+                {
+                    bucketId: config.appwriteBucketId,
+                    fileId: fileId,
+                }
+            )
     }
 };
 

@@ -1,16 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import { useEffect, useState } from 'react'
+import { useDispatch } from "react-redux";
+import { login,logout } from './store/authenticationSlice';
+import AuthObject from './Authentication/Authentication';
+// import { login } from './store/authenticationSlice';
+import { Footer,Header } from './components';
 
 function App() {
-  const [count, setCount] = useState(0)
-  console.log(import.meta.env.VITE_APPWRITE_URL)
-  return (
-    <>
-      <h1>Hello i am kunal</h1>
-    </>
-  )
+
+  const [loading,setLoading] = useState(true)
+  const dispatch = useDispatch()
+  useEffect(()=>{
+    AuthObject.userAuthenticationState()
+    .then((responce)=>{
+      if(responce){
+        dispatch(login({responce}))
+      }else{
+        dispatch(logout())
+      }
+    })
+    .finally(()=>{
+      setLoading(false)
+    })
+  },[])
+console.log(loading)  
+  if(!loading){
+    return(
+      <div className='min-h-screen flex flex-wrap content-center bg-gray-400'>
+        <div className='w-full block'>
+          <Header/>
+            <main>
+              {/* <Outlet/> */}
+              TODO
+            </main>
+          <Footer/>
+        </div>
+      </div>
+    )
+  }else{
+     return(
+      null
+    )
+  }
 }
 
 export default App
