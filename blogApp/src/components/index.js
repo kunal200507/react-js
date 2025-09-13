@@ -2,5 +2,7 @@ import Footer from "./Footer/Footer";
 import Header from "./Header/Header";
 import Logo from "./Logo";
 import Container from "./Container/Container"
+import Input from "../components/Input"
+import Button from "../components/Button"
 
-export  {Footer,Header,Logo,Container}
+export  {Footer,Header,Logo,Container,Input,Button}
