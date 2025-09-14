@@ -34,7 +34,7 @@ class DatabaseConfig {
         }
     }
 
-    async updatePost({ title, content, featuredImage, status, userId }) {
+    async updatePost(slug,{ title, content, featuredImage, status }) {
         try {
             await this.databases.updateDocument({
                 databaseId: config.appwriteDatabaseId,
@@ -45,7 +45,6 @@ class DatabaseConfig {
                     content,
                     featuredImage,
                     status,
-                    userId,
                 }
             });
         } catch (error) {
