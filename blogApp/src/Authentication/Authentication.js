@@ -13,7 +13,7 @@ class Authentication{
 
     async userSignUp({email,password,name}){
         try {
-            const userAccount = await this.account.create({userid : ID.unique(),email,password,name});
+            const userAccount = await this.account.create(ID.unique(),email,password,name);
 
             if (userAccount) {
                 return this.userLogin({email,password})
@@ -28,7 +28,7 @@ class Authentication{
 
     async userLogin({email,password}){
         try {
-            return await this.account.createEmailPasswordSession({email,password});
+            return await this.account.createEmailPasswordSession(email,password);
 
         } catch (error) {
             throw error;

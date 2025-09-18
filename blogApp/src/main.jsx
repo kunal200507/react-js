@@ -14,62 +14,68 @@ import Addpost from './pages/Addpost.jsx'
 import EditPost from './pages/EditPost.jsx'
 import Post from './pages/post.jsx'
 
-const router = createBrowserRouter([
-  {
-    path:'/',
-    element:<Home/>
-  },
-  {
-    path:'/login',
-    element:(
-      <Authlayout authentication={false}>
-        <Login/>
-      </Authlayout>
-    )
-  },
-  {
-    path:'/signup',
-    element:(
-      <Authlayout authentication>
-        <Signup/>
-      </Authlayout>
-    )
-  },
-  {
-    path:'/all-posts',
-    element:(
-      <Authlayout authentication>
-        {" "}
-        <AllPost/>
-      </Authlayout>
-    )
-  },
-  {
-    path:'/add-Post',
-    element:(
-      <Authlayout authentication>
-        {" "}
-        <Addpost/>
-      </Authlayout>
-    )
-  },
-  {
-    path:'/edit-post/:slug',
-    element:(
-      <Authlayout authentication>
-        {" "}
-        <EditPost/>
-      </Authlayout>
-    )
-  },
-  {
-    path:'/post/:slug',
-    element:(
-      <Authlayout authentication>
-        <Post/>
-      </Authlayout>
-    )
-  },
+const router = createBrowserRouter([{
+  path: '/',
+  element: <App />,
+  children: [
+    {
+      path: '/',
+      element: <Home />
+    },
+    {
+      path: '/login',
+      element: (
+        <Authlayout authentication={false}>
+          <Login />
+        </Authlayout>
+      )
+    },
+    {
+      path: '/signup',
+      element: (
+        <Authlayout authentication={false}>
+          <Signup />
+        </Authlayout>
+      )
+    },
+    {
+      path: '/all-posts',
+      element: (
+        <Authlayout authentication>
+          {" "}
+          <AllPost />
+        </Authlayout>
+      )
+    },
+    {
+      path: '/add-Post',
+      element: (
+        <Authlayout authentication>
+          {" "}
+          <Addpost />
+        </Authlayout>
+      )
+    },
+    {
+      path: '/edit-post/:slug',
+      element: (
+        <Authlayout authentication>
+          {" "}
+          <EditPost />
+        </Authlayout>
+      )
+    },
+    {
+      path: '/post/:slug',
+      element: (
+        <Authlayout authentication>
+          <Post />
+        </Authlayout>
+      )
+    },
+  ]
+}
+
 ]
 )
 

@@ -3,8 +3,8 @@ import {useSelector} from "react-redux"
 import {useNavigate} from "react-router-dom"
 
 export default function Protected({children, authentication=true}) {
-    const [loader,setLoader] = useState(false)
-    const authStatus = useSelector((state)=>state.auth.status)
+    const [loader,setLoader] = useState(true)
+    const authStatus = useSelector(state=>state.auth.status)
     const navigate = useNavigate()
 
     useEffect(() => {
@@ -17,5 +17,5 @@ export default function Protected({children, authentication=true}) {
     }, [navigate,authStatus,authentication])
     
 
-  return loader?<div>Loading...</div>:{children}
+  return loader?<h1>Loading...</h1>:children
 }

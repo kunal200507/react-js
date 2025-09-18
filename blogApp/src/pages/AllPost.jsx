@@ -1,7 +1,7 @@
 import React from 'react'
 import { Postcard, Container } from '../components'
 import databaseconfig from '../Authentication/databaseConfig'
-import { useState } from 'react'
+import { useState ,useEffect} from 'react'
 
 function AllPost() {
 

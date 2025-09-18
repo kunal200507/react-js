@@ -4,6 +4,7 @@ import { login,logout } from './store/authenticationSlice';
 import AuthObject from './Authentication/Authentication';
 // import { login } from './store/authenticationSlice';
 import { Footer,Header } from './components';
+import { Outlet } from 'react-router-dom';
 
 function App() {
 
@@ -29,8 +30,7 @@ console.log(loading)
         <div className='w-full block'>
           <Header/>
             <main>
-              {/* <Outlet/> */}
-              TODO
+              <Outlet/>
             </main>
           <Footer/>
         </div>

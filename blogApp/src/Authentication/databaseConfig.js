@@ -13,40 +13,42 @@ class DatabaseConfig {
 
         this.databases = new Databases(this.client)
         this.bucket = new Storage(this.client)
+
+        // console.log(config.appwriteProjectId)
     }
 
     async createPost({ title, content, featuredImage, status, userId, slug }) {
         try {
-            return await this.databases.createDocument({
-                databaseId: config.appwriteDatabaseId,
-                collectionId: config.appwriteCollectionId,
-                documentId: slug,
-                data: {
+            return await this.databases.createDocument(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                slug,
+                {
                     title,
                     content,
                     featuredImage,
                     status,
                     userId,
                 }
-            });
+            );
         } catch (error) {
             console.log("Appwrite serive :: createPost :: error", error)
         }
     }
 
-    async updatePost(slug,{ title, content, featuredImage, status }) {
+    async updatePost(slug, { title, content, featuredImage, status }) {
         try {
-            await this.databases.updateDocument({
-                databaseId: config.appwriteDatabaseId,
-                collectionId: config.appwriteCollectionId,
-                documentId: slug,
-                data: {
+            await this.databases.updateDocument(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                slug,
+                {
                     title,
                     content,
                     featuredImage,
                     status,
                 }
-            });
+            );
         } catch (error) {
             console.log("Appwrite serive :: updatePost :: error", error)
         }
@@ -54,11 +56,11 @@ class DatabaseConfig {
 
     async deletePost(slug) {
         try {
-            return await this.databases.deleteDocument({
-                databaseId: config.appwriteDatabaseId,
-                collectionId: config.appwriteCollectionId,
-                documentId: slug,
-            });
+            return await this.databases.deleteDocument(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                slug,
+            );
 
         } catch (error) {
             console.log("Appwrite serive :: deletePost :: error", error)
@@ -67,11 +69,11 @@ class DatabaseConfig {
 
     async getPost(slug) {
         try {
-            return await this.databases.getDocument({
-                databaseId: config.appwriteDatabaseId,
-                collectionId: config.appwriteCollectionId,
-                documentId: slug,
-            })
+            return await this.databases.getDocument(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                slug,
+            )
 
         } catch (error) {
             console.log("Appwrite serive :: getPost :: error", error)
@@ -81,11 +83,11 @@ class DatabaseConfig {
 
     async getPosts() {
         try {
-            return await this.databases.listDocuments({
-                databaseId: config.appwriteDatabaseId,
-                collectionId: config.appwriteCollectionId,
-                queries: [Query.equal("status", ["active"])],
-            })
+            return await this.databases.listDocuments(
+                config.appwriteDatabaseId,
+                config.appwriteCollectionId,
+                [Query.equal("status", ["active"])],
+            )
         } catch (error) {
             console.log("Appwrite serive :: getPosts :: error", error)
             return false
@@ -95,11 +97,11 @@ class DatabaseConfig {
     async fileUpload(file) {
         try {
             return await this.bucket.createFile(
-                {
-                    bucketId: config.appwriteBucketId,
-                    fileId: ID.unique(),
-                    file: file
-                }
+
+                config.appwriteBucketId,
+                ID.unique(),
+                file
+
             )
 
         } catch (error) {
@@ -108,13 +110,11 @@ class DatabaseConfig {
         }
     }
 
-    async deleteFile(fileId){
+    async deleteFile(fileId) {
         try {
             return await this.bucket.deleteFile(
-                {
-                    bucketId: config.appwriteBucketId,
-                    fileId: fileId,
-                }
+                config.appwriteBucketId,
+                fileId,
             )
             // return true
         } catch (error) {
@@ -123,13 +123,13 @@ class DatabaseConfig {
         }
     }
 
-    filePreview(fileId){
-            return this.bucket.getFilePreview(
-                {
-                    bucketId: config.appwriteBucketId,
-                    fileId: fileId,
-                }
-            )
+    filePreview(fileId) {
+        return this.bucket.getFilePreview(
+
+            config.appwriteBucketId,
+            fileId,
+
+        )
     }
 };
 

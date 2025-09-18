@@ -13,6 +13,7 @@ function Signup() {
     const { handleSubmit, register } = useForm()
 
     const signup = async (data) => {
+        console.log(data)
         setError("")
         try {
             const createUser = await AuthObject.userSignUp(data)
@@ -47,7 +48,7 @@ function Signup() {
                     <div className='space-y-5'>
                         <Input
                             label="Name"
-                            Placeholder="Enter your full name"
+                            placeholder="Enter your full name"
                             type="text"
                             {...register("name", {
                                 required: true,
@@ -60,13 +61,13 @@ function Signup() {
                             {...register("email", {
                                 required: true,
                                 validate: {
-                                matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address",
+                                    matchPatern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address",
                                 }
                             })}
                         />
                         <Input
                             label="Password"
-                            Placeholder="Enter password"
+                            placeholder="Enter password"
                             type="password"
                             {...register("password", {
                                 required: true,

@@ -17,7 +17,11 @@ function Postform({ post }) {
 
   const navigate = useNavigate()
 
-  const userData = useSelector(state => state.auth.userdata)
+  const userData = useSelector((state) => state.auth.userData)
+  // console.log(userData.$id)
+  // console.log(userData.responce.$id)
+  const state = useSelector((state) => state)
+  console.log(state)
 
   const submit = async (data) => {
     if (post) {
@@ -37,8 +41,10 @@ function Postform({ post }) {
 
       if (file) {
         const fileId = file.$id
+        // console.log(file.$id)
         data.featuredImage = fileId
-        const dbPost = await databaseconfig.createPost({ ...data, userId: userData.$id, })
+        // console.log(userData.responce.$id)
+        const dbPost = await databaseconfig.createPost({ ...data, userId: userData.responce.$id, })
         if (dbPost) {
           navigate(`/post/${dbPost.$id}`)
         }
@@ -52,7 +58,8 @@ function Postform({ post }) {
       return value
         .trim()
         .toLowerCase()
-        .replace(/^[a-zA-Z/d]+/g, '-')
+        .replace(/[^a-zA-Z\d\s]+/g, "-")
+        .replace(/\s/g, "-");
 
     return ''
   }, [])
@@ -61,15 +68,11 @@ function Postform({ post }) {
 
     const subscribe = watch((value, { name }) => {
       if (name == "title") {
-        setValue('slug', slugTransformation(value.title, {
-          shouldValidate: true,
-        }))
+        setValue('slug', slugTransformation(value.title, { shouldValidate: true }))
       }
     })
 
-    return () => {
-      subscribe.unsubscribe()
-    }
+    return () => subscribe.unsubscribe()
 
   }, [watch, slugTransformation, setValue])
 
