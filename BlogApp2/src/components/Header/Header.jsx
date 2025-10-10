@@ -42,17 +42,17 @@ function Header() {
                             </ul>
                         </div>
                     </div>
-                    {/* <div className=" bg-red-600 ml-10 m-2 h-14 pt-2" >
+                    <div className=" m-2 h-14 pt-2" >
                         <Userlogo/>
-                    </div> */}
-                    <div className=" flex flex-wrap flex-row ">
+                    </div>
+                    {/* <div className=" flex flex-wrap flex-row ">
                         <div className=" ml-4 m-2 h-14 pt-2" >
                             <Logout />
                         </div>
                         <div className="  ml-4 m-2 h-14 pt-2" >
                             <Signup />
                         </div>
-                    </div>
+                    </div> */}
                 </div>
             </header>
         </>
