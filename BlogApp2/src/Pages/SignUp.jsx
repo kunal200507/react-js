@@ -1,64 +1,113 @@
-import { Link } from "react-router";
+import { useNavigate } from 'react-router';
+import blogPromoImage from '../assets/BlogLogin.jpg';
+import { Input } from '../components/index'
+import { useForm } from "react-hook-form"
+import userAuth from '../appwrite/appwriteAuth'
+import { useSelector, useDispatch } from 'react-redux';
+import {userLogin, userLogout} from '../store/userslice'
 
-export default function Signup() {
+const SignUp = () => {
+  const { register, handleSubmit } = useForm()
+  const navigate = useNavigate()
+  
+  const dispatch = useDispatch()
+
+  const submitForm = async (data) => {
+    alert("form submitted")
+    console.log(data)
+
+    const userdata = await userAuth.createAccount(data.email, data.password)
+    console.log(userdata)
+
+    if(userdata){
+      dispatch(userLogin(userdata))
+    }
+    navigate("/")
+  }
+  // const userData = useSelector((state)=>state.appwriteAuthstore.data)
+  // const userStatus = useSelector((state)=>state.appwriteAuthstore.isLoggedIn)
+  // console.log(userData)
+  // console.log(userStatus)
+
+  const brandOrange = "#FF8C00";
+  const brandBlue = "#004D99";
+  const linkBlue = "#007BFF";
+
   return (
-    <div className="bg-white min-h-screen flex flex-col justify-center items-center px-4">
-      <div className="w-full max-w-md bg-gray-50 border border-gray-200 rounded-2xl shadow-md p-8">
-        <h2 className="text-2xl font-bold text-gray-900 text-center mb-6">
-          Create Your Account 🚀
-        </h2>
+    <div className='min-h-screen flex flex-col lg:flex-row bg-white'>
+      <img
+        src={blogPromoImage}
+        alt="Illustration of a person using a blog app"
+        className="w-full lg:w-1/2 h-auto max-h-96 lg:max-h-full object-contain rounded-lg shadow-lg"
+      />
 
-        <form className="space-y-5">
-          {/* Name */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Full Name</label>
-            <input
+      < div className="flex justify-center items-center p-8 sm:p-12 w-full lg:w-1/2" >
+
+        <form onSubmit={handleSubmit(submitForm)} className="w-full max-w-md">
+
+          {/* Title "Sign In" */}
+          <h2
+            className="text-4xl font-extrabold mb-10"
+            style={{ color: brandBlue }}
+          >
+            Sign Up.
+          </h2>
+
+          <div className="mb-6">
+            <Input
+              label="Name"
               type="text"
-              placeholder="Your name"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
+              placeholder="Enter your full name*"
+              classNameLabel="block text-base font-medium text-gray-700 sr-only"
+              classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("name", { required: true })} />
           </div>
 
-          {/* Email */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Email</label>
-            <input
+          <div className="mb-6">
+            <Input
+              label="Email"
               type="email"
-              placeholder="Your email"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
+              placeholder="Email address *"
+              classNameLabel="block text-base font-medium text-gray-700 sr-only"
+              classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("email", {
+                required: true,
+                validate: {
+                  matchPattern: (value) => /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/.test(value) || "Email address must be a valid address",
+                }
+              })} />
           </div>
 
-          {/* Password */}
-          <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Password</label>
-            <input
+          <div className="mb-6">
+            <Input
+              label="Password"
               type="password"
-              placeholder="Create a password"
-              className="w-full border border-gray-300 rounded-lg px-3 py-2 focus:ring-2 focus:ring-blue-500 focus:outline-none"
-            />
+              placeholder="Password *"
+              classNameLabel="block text-base font-medium text-gray-700 sr-only"
+              classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("password", { required: true })} />
           </div>
-
-          {/* Signup Button */}
           <button
             type="submit"
-            className="w-full bg-blue-600 hover:bg-blue-700 text-white font-medium py-2 rounded-lg transition"
+            className="w-full py-3 text-lg text-white font-bold rounded-lg transition duration-300 shadow-2xl hover:shadow-2xs focus:outline-none focus:ring-4 focus:ring-orange-300 focus:ring-opacity-50 mb-8 cursor-pointer"
+            style={{ backgroundColor: brandOrange }}
           >
-            Sign Up
+            Sign In
           </button>
+
+          <p className="text-center text-base text-gray-700">
+            Already have an account?
+            <a
+              className="font-bold hover:underline ml-1 cursor-pointer"
+              style={{ color: linkBlue }}
+              onClick={() => navigate('/login')}
+            >
+              Login
+            </a>
+          </p>
+
         </form>
 
-        {/* Divider */}
-        <div className="text-center my-4 text-gray-500 text-sm">or</div>
-
-        {/* Login Redirect */}
-        <p className="text-center text-sm text-gray-600">
-          Already have an account?{" "}
-          <Link to="/login" className="text-blue-600 hover:underline">
-            Log in
-          </Link>
-        </p>
-      </div>
+      </div >
     </div>
   );
-}
+};
+
+export default SignUp;

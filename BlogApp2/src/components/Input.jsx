@@ -1,15 +1,26 @@
-import React from "react";
+// import React from "react";
+import { useId,forwardRef } from "react";
 
-const Input = ({classNameDiv,classNameLabel,classNameInput,placeholder,label,type,id})=>{
+const Input = forwardRef(function Input(
+    {
+        classNameDiv,
+        classNameLabel,
+        classNameInput,
+        placeholder,
+        label,
+        type,
+        ...props
+    },ref){
+    const id = useId();
     return(
-        <div className={` h-auto w-1/4 flex flex-row justify-center items-center ${classNameDiv} `}>
-            <label className={ `m-1 mr-3 ${classNameLabel}`} htmlFor={id}>
+        <div className={`${classNameDiv} `}>
+            <label className={ `${classNameLabel}`} htmlFor={id}>
                 {label}
             </label>
-            <input className={ `m-1 w-full border border-gray-300 rounded-lg p-2 shadow-sm focus:border-blue-500 ${classNameInput}`} id={id} type={type} placeholder={placeholder} />
+            <input className={ ` ${classNameInput}`} id={id} type={type} placeholder={placeholder} ref={ref} {...props} />
 
         </div>
     )
-}
+})
 
 export default Input

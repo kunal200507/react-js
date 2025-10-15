@@ -5,7 +5,7 @@ class authentication {
     client = new Client();
     account;
 
-    async createAccount(id, email, password) {
+    async createAccount(email, password) {
         this.client
             .setProject(authObj.projectId)
             .setEndpoint(authObj.endPoint)
@@ -51,6 +51,15 @@ class authentication {
     async deleteUser(){
         try {
             await this.account.delete()
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async getUser(){
+        try {
+            const user = await this.account.get()
+            console.log(user)
         } catch (error) {
             console.error(error)
         }

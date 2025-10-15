@@ -1,7 +1,5 @@
 import { useState } from 'react';
-import Button from './Button'
-import Cornerbox from './CornerBox';
-
+import {Cornerbox} from '../index.js'
 
 function Userlogo(){
 

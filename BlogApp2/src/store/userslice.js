@@ -1,10 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
 
-export const userslice=createSlice({
+const userslice=createSlice({
     name: 'appwriteAuthstore',
     initialState:{
-        isLoggedIn:True,
-        data: {},
+        isLoggedIn:false,
+        data: null,
     },
     reducers:{
         userLogin:(state,action)=>{
@@ -13,7 +13,7 @@ export const userslice=createSlice({
         },
         userLogout:(state)=>{
             state.isLoggedIn=false
-            state.data={}
+            state.data=null
         }
     }
 })
