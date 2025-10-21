@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
 import blogPromoImage from '../assets/BlogLogin.jpg'; 
 import {Input} from '../components/index'
@@ -9,16 +10,20 @@ const Login = () => {
   const navigate = useNavigate()
   const {register,handleSubmit} = useForm()
   const dispatch = useDispatch()
-  const login = async(data) => {
-    console.log(data)
-    console.log(data.email)
-    console.log(data.password)
+  const [appError,setAppError] = useState(null)
+  const login = (data) => {
 
-    const userdata = await userAuth.userLogin(data.email,data.password)
-    if(userdata){
-      dispatch(userLogin(data))
-    }
-  };
+    userAuth.userLogin(data)
+    .then((userdata)=>{
+      console.log(userdata)
+      dispatch(userLogin(userdata));
+      alert("user is logged in")
+      navigate('/')
+    }).catch((error)=>{
+      console.error(error)
+      setAppError(error.AppwriteException)
+    })
+  };  
   
   const brandOrange = "#FF8C00"; 
   const brandBlue = "#004D99";   
@@ -43,7 +48,7 @@ const Login = () => {
           >
             Login
           </h2>
-          
+          <p>{appError&&(appError)}</p>
           <div className="mb-6">
             <Input 
             label="Email address" 

@@ -5,56 +5,47 @@ class authentication {
     client = new Client();
     account;
 
-    async createAccount(email, password) {
+    constructor(){
         this.client
             .setProject(authObj.projectId)
             .setEndpoint(authObj.endPoint)
         this.account = new Account(this.client)
+    }
 
+    async createAccount({email, password,name}) {
         try {
-            const user = await this.account.create({
-                userId: ID.unique(),
-                email: email,
-                password: password,
-            })
+            const user = await this.account.create(
+                ID.unique(),
+                email,
+                password,
+                name
+            )
 
             return user
 
         } catch (error) {
-            console.error(error)
+            console.error(error) 
         }
     }
 
-    async userLogin(email, password) {
+    async userLogin({email, password}) {
         try {
-            const result = await this.account.createEmailPasswordSession({
-                email: email,
-                password: password,
-            })
+            const result = await this.account.createEmailPasswordSession(email, password)
             return result
         } catch (error) {
             console.error(error)
         }
     }
 
-    async userLogout(id) {
+    async userLogout() {
         try {
-            const logout = await this.account.deleteSession({
-                sessionId: id
-            })
+            const logout = await this.account.deleteSessions()
             return logout
         } catch (error) {
             console.error(error)
         }
     }
 
-    async deleteUser(){
-        try {
-            await this.account.delete()
-        } catch (error) {
-            console.error(error)
-        }
-    }
 
     async getUser(){
         try {

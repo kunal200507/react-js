@@ -1,6 +1,7 @@
 import { NavLink, useNavigate } from "react-router"
 import { useSelector } from 'react-redux'
 import {LoginButton,SignupButton,Userlogo} from '../index.js'
+import { useEffect, useState } from "react"
 
 function Header() {
     const userState = useSelector((state) => state.appwriteAuthstore.isLoggedIn)
@@ -49,7 +50,7 @@ function Header() {
                             <LoginButton />
                         </div>
                         <div className="  ml-4 m-2 h-14 pt-2" >
-                            <SignupButton />
+                            <SignupButton  />
                         </div>
                     </div>)}
 

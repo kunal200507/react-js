@@ -4,7 +4,7 @@ const userslice=createSlice({
     name: 'appwriteAuthstore',
     initialState:{
         isLoggedIn:false,
-        data: null,
+        data: {},
     },
     reducers:{
         userLogin:(state,action)=>{

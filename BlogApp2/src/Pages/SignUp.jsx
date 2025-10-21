@@ -12,22 +12,18 @@ const SignUp = () => {
   
   const dispatch = useDispatch()
 
-  const submitForm = async (data) => {
-    alert("form submitted")
-    console.log(data)
-
-    const userdata = await userAuth.createAccount(data.email, data.password)
-    console.log(userdata)
-
-    if(userdata){
+  const submitForm = (data) => {
+    userAuth.createAccount(data)
+    .then((userdata)=>{
+      console.log(userdata)
       dispatch(userLogin(userdata))
-    }
-    navigate("/")
+      alert("user is signed up")
+      navigate('/')
+    })
+    .catch((error)=>{
+      console.error(error)
+    })
   }
-  // const userData = useSelector((state)=>state.appwriteAuthstore.data)
-  // const userStatus = useSelector((state)=>state.appwriteAuthstore.isLoggedIn)
-  // console.log(userData)
-  // console.log(userStatus)
 
   const brandOrange = "#FF8C00";
   const brandBlue = "#004D99";
