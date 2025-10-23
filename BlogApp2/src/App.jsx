@@ -1,18 +1,48 @@
 import './App.css'
 import {Outlet} from 'react-router'
-import { useSelector } from 'react-redux'
+import userAuth from './appwrite/appwriteAuth'
+import { useDispatch } from 'react-redux'
+import {userLogin} from './store/userslice'
 import {Header,Footer} from './components/index'
+import { useEffect, useState } from 'react'
+import Postcard from './components/Postcard'
+import Createpost from './components/Createpost'
 
 function App() {
-  
+  const dispatch = useDispatch()
+  const [loader,setLoader]=useState(true)
+  useEffect(()=>{
+    userAuth.getUser()
+    .then((userData)=>{
+      console.log(userData)
+      console.log(userData.name)
+      dispatch(userLogin(userData))
+    })
+    .catch((error)=>{
+      console.error(error)
+    })
+    .finally(()=>{
+      setLoader(false)
+    })
 
-  return (
+  },[])
+
+  if(loader){
+    return(
+      <div className='w-screen h-screen flex'>
+        <p className='justify-center items-center m-auto'>loading...</p>
+      </div>
+    )
+  }else{
+    return(
         <>
         <Header/>  
-        <Outlet/>
+        <Createpost/>
+        {/* <Outlet/> */}
         <Footer/>  
         </>
-  )
+    )
+  }
 }
 
 export default App

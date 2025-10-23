@@ -50,7 +50,7 @@ class authentication {
     async getUser(){
         try {
             const user = await this.account.get()
-            console.log(user)
+            return user
         } catch (error) {
             console.error(error)
         }

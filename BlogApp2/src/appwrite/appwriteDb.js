@@ -1,27 +1,37 @@
 import authObj from "../appwrite"
-import { Client, ID, TablesDB } from "appwrite";
+import { Client, Databases } from "appwrite";
 
-class Database {
+class userDatabase {
     client = new Client()
-    tableDb
+    database
 
-    async userRow(data) {
+    constructor(){
         this.client
-            .setEndpoint(authObj.endPoint)
             .setProject(authObj.projectId)
-        this.tableDb = new TablesDB(client)
+            .setEndpoint(authObj.endPoint)
+        this.database = new Databases(this.client)
+    }
 
+    async createrow(id,{email,name,author,password}) {
         try {
-            await this.tableDb.createRow({
-                databaseId: authObj.databaseId,
-                tableId: authObj.tableId,
-                rowId: ID.unique(),
-                data: data
-            })
+            return await this.database.createDocument(
+                authObj.databaseId,
+                authObj.tableId,
+                id,
+                {
+                    email,
+                    name,
+                    author,
+                    password,
+                }
+            )  
         } catch (error) {
-
+            console.error(error)
         }
 
     }
-
 };
+
+const userdb = new userDatabase
+
+export default userdb

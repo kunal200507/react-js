@@ -3,26 +3,26 @@ import blogPromoImage from '../assets/BlogLogin.jpg';
 import { Input } from '../components/index'
 import { useForm } from "react-hook-form"
 import userAuth from '../appwrite/appwriteAuth'
-import { useSelector, useDispatch } from 'react-redux';
-import {userLogin, userLogout} from '../store/userslice'
+import userdb from '../appwrite/appwriteDb';
+import { useDispatch } from 'react-redux';
+import {userLogin} from '../store/userslice'
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm()
   const navigate = useNavigate()
-  
   const dispatch = useDispatch()
 
-  const submitForm = (data) => {
-    userAuth.createAccount(data)
-    .then((userdata)=>{
-      console.log(userdata)
+  const submitForm = async(data) => {
+    try {
+      const userdata=await userAuth.createAccount(data)
+      // const db=await userdb.createrow(userdata.$id,data)
+      // console.log(db)
       dispatch(userLogin(userdata))
       alert("user is signed up")
       navigate('/')
-    })
-    .catch((error)=>{
+    } catch (error) {
       console.error(error)
-    })
+    }
   }
 
   const brandOrange = "#FF8C00";
@@ -79,6 +79,16 @@ const SignUp = () => {
               placeholder="Password *"
               classNameLabel="block text-base font-medium text-gray-700 sr-only"
               classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("password", { required: true })} />
+          </div>
+          <div className="flex flex-row mb-6">
+            <Input
+              label="author"
+              type="checkbox"
+              placeholder=""
+              classNameLabel="block text-base font-medium text-gray-700 sr-only"
+              classNameInput="w-full mr-2 py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("author", { required: true })} 
+            />
+            <p>Author</p>
           </div>
           <button
             type="submit"

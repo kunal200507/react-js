@@ -4,7 +4,6 @@ export default function Home() {
   return (
     <div className="bg-white text-gray-900 min-h-screen flex flex-col">
 
-      {/* Hero Section */}
       <section className="text-center py-20 px-6">
         <h1 className="text-4xl md:text-5xl font-extrabold mb-4 text-gray-900">
           Share Your Thoughts With the World
@@ -38,7 +37,7 @@ export default function Home() {
         <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
           ✨ Latest Blogs
         </h2>
-
+    
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
           {/* Blog Card Example */}
           {[1, 2, 3, 4, 5, 6].map((i) => (
