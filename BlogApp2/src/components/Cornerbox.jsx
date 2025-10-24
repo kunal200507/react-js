@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import {  useState } from "react";
 import userAuth from '../appwrite/appwriteAuth'
 import { useDispatch } from 'react-redux';
 import { userLogout} from '../store/userslice'
 import { useNavigate } from "react-router";
-const Cornerbox = ({name=''}) => {
+const Cornerbox = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [username, setUsername] = useState('')

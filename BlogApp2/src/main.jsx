@@ -8,6 +8,7 @@ import Login from './Pages/Loginpage.jsx'
 import Signup from './Pages/SignUp.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
+import AddPost from './Pages/addPost.jsx'
 
 const routes=createBrowserRouter([
   {
@@ -25,6 +26,10 @@ const routes=createBrowserRouter([
       {
         path:"/signup",
         element:<Signup/>,
+      },
+      {
+        path:"/addpost",
+        element:<AddPost/>
       }
     ]
   }

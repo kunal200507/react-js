@@ -7,6 +7,8 @@ import {Header,Footer} from './components/index'
 import { useEffect, useState } from 'react'
 import Postcard from './components/Postcard'
 import Createpost from './components/Createpost'
+import AddPost from './Pages/addPost'
+import Post from './Pages/Post'
 
 function App() {
   const dispatch = useDispatch()
@@ -37,8 +39,7 @@ function App() {
     return(
         <>
         <Header/>  
-        <Createpost/>
-        {/* <Outlet/> */}
+        <Post/>
         <Footer/>  
         </>
     )

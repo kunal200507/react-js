@@ -80,16 +80,7 @@ const SignUp = () => {
               classNameLabel="block text-base font-medium text-gray-700 sr-only"
               classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("password", { required: true })} />
           </div>
-          <div className="flex flex-row mb-6">
-            <Input
-              label="author"
-              type="checkbox"
-              placeholder=""
-              classNameLabel="block text-base font-medium text-gray-700 sr-only"
-              classNameInput="w-full mr-2 py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("author", { required: true })} 
-            />
-            <p>Author</p>
-          </div>
+          
           <button
             type="submit"
             className="w-full py-3 text-lg text-white font-bold rounded-lg transition duration-300 shadow-2xl hover:shadow-2xs focus:outline-none focus:ring-4 focus:ring-orange-300 focus:ring-opacity-50 mb-8 cursor-pointer"

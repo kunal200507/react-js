@@ -12,17 +12,17 @@ class userDatabase {
         this.database = new Databases(this.client)
     }
 
-    async createrow(id,{email,name,author,password}) {
+    async createrow({topic,slug,description,content,imageUrl}) {
         try {
             return await this.database.createDocument(
                 authObj.databaseId,
                 authObj.tableId,
                 id,
                 {
-                    email,
-                    name,
-                    author,
-                    password,
+                    topic,
+                    description,
+                    content,
+                    imageUrl,
                 }
             )  
         } catch (error) {
