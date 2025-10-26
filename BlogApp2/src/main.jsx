@@ -9,6 +9,9 @@ import Signup from './Pages/SignUp.jsx'
 import { Provider } from 'react-redux'
 import store from './store/store.js'
 import AddPost from './Pages/addPost.jsx'
+import Post from './Pages/Post.jsx'
+import Updatepost from './Pages/UpdatePost.jsx'
+import YourPosts from './Pages/YourPosts.jsx'
 
 const routes=createBrowserRouter([
   {
@@ -30,6 +33,18 @@ const routes=createBrowserRouter([
       {
         path:"/addpost",
         element:<AddPost/>
+      },
+      {
+        path:"/post",
+        element:<Post/>
+      },
+      {
+        path:"/update",
+        element:<Updatepost/>
+      },
+      {
+        path:"/yourposts",
+        element:<YourPosts/>
       }
     ]
   }

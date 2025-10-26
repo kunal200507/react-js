@@ -4,7 +4,7 @@ import { Input } from '../components/index'
 import { useForm } from "react-hook-form"
 import userAuth from '../appwrite/appwriteAuth'
 import userdb from '../appwrite/appwriteDb';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import {userLogin} from '../store/userslice'
 
 const SignUp = () => {
@@ -12,11 +12,10 @@ const SignUp = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+
   const submitForm = async(data) => {
     try {
       const userdata=await userAuth.createAccount(data)
-      // const db=await userdb.createrow(userdata.$id,data)
-      // console.log(db)
       dispatch(userLogin(userdata))
       alert("user is signed up")
       navigate('/')

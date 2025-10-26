@@ -11,11 +11,10 @@ const Login = () => {
   const {register,handleSubmit} = useForm()
   const dispatch = useDispatch()
   const [appError,setAppError] = useState(null)
+  
   const login = (data) => {
-
     userAuth.userLogin(data)
     .then((userdata)=>{
-      console.log(userdata)
       dispatch(userLogin(userdata));
       alert("user is logged in")
       navigate('/')

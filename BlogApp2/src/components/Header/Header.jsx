@@ -23,7 +23,7 @@ function Header() {
 
     return (
         <>
-            <header className='w-full h-20 border-b-1 shadow sticky top-0'>
+            <header className='w-full h-20 border-b-1 shadow sticky top-0 z-10'>
                 <div className='w-full h-full flex flex-wrap flex-row justify-evenly'>
                     <button className='text-black p-1 mt-4 m-1 ml-6 cursor-pointer bg-green-300 w-10 h-10' onClick={() => navigate("/")} >logo</button>
                     <div className=' ml-4 m-2 w-6xl h-14'>

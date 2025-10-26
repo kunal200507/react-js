@@ -7,5 +7,6 @@ import SignupButton from "./Header/SignupButton";
 import Header from "./Header/Header";
 import Footer from "./Footer";
 import Editors from "./Editor";
+import Postcard from "./Postcard";
 
-export {Button,Cornerbox, Input, Userlogo, LoginButton, SignupButton, Header, Footer, Editors}
+export {Button,Cornerbox, Input, Userlogo, LoginButton, SignupButton, Header, Footer, Editors, Postcard}

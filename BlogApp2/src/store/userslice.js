@@ -9,12 +9,12 @@ const userslice=createSlice({
     reducers:{
         userLogin:(state,action)=>{
             state.isLoggedIn=true
-            state.data = action.payload.data
+            state.data = action.payload
         },
         userLogout:(state)=>{
             state.isLoggedIn=false
             state.data=null
-        }
+        },
     }
 })
 

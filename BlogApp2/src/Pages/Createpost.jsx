@@ -1,12 +1,16 @@
-import { Input, Button, Editors } from './index.js'
+import { Input, Button, Editors } from '../components/index.js'
 import { useForm } from 'react-hook-form'
-import React, { useState, useRef, useEffect } from 'react';
+import React, { useState, } from 'react';
+import userdb from '../appwrite/appwriteDb.js'
+import { useSelector } from 'react-redux';
 
 function Createpost() {
+
     const [imgUrl,setImgUrl] = useState(null)
     const [save,setSave] = useState(false)
     const { register, handleSubmit, control, setValue } = useForm()
     let slug=null;
+    const userdata = useSelector((state)=>state.appwriteAuthstore.data)
     function imagePreview(data){
         setImgUrl(data.imageUrl)
         slug = data.topic.replaceAll(" ","-")
@@ -14,9 +18,16 @@ function Createpost() {
         setSave(true)
     }
 
-    function createPost(data) {
-        console.log(data)
-        alert("look in console!")
+    async function createPost(data) {
+        data.userId = userdata.$id
+        try {
+            const responce = await userdb.createPost(data)
+            alert("posted")
+            console.log(responce)
+        } catch (error) {
+            console.log(error)
+            // alert(error)
+        }
     }
 
     return (

@@ -1,8 +1,8 @@
-import Createpost from "../components/Createpost"
+import Createpost from "./Createpost"
 
 export default function AddPost(){
     return(
-        <div className="w-full h-auto bg-red-50 relative" >
+        <div className="w-full h-auto bg-red-50 relative -z-0" >
             <div className="h-full w-1 bg-black absolute left-3xl">
 
             </div>
