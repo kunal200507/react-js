@@ -10,12 +10,16 @@ export default function Post() {
     const [name, setName] = useState("")
     const userData = useSelector((state)=>state.appwriteAuthstore.data)
     useEffect(()=>{
-        async function getPost() {
-            const postData = await userdb.getpost(slug,userData.$id)
+        userdb.getpost(slug,userData.$id)
+        .then(()=>{
             setTopic(postData.topic)
             setContent(postData.content)
             setName(userData.name)
-        }
+        })
+        .catch((error)=>{
+            console.log(error)
+            alert("please refresh")
+        })
     },[])
     return (
         <div className="flex justify-center" >

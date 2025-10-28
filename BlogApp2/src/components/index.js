@@ -8,5 +8,6 @@ import Header from "./Header/Header";
 import Footer from "./Footer";
 import Editors from "./Editor";
 import Postcard from "./Postcard";
+import Loader from "./Authentication";
 
-export {Button,Cornerbox, Input, Userlogo, LoginButton, SignupButton, Header, Footer, Editors, Postcard}
+export {Button,Cornerbox, Input, Userlogo, LoginButton, SignupButton, Header, Footer, Editors, Postcard,Loader}

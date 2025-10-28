@@ -6,21 +6,26 @@ import userAuth from '../appwrite/appwriteAuth'
 import userdb from '../appwrite/appwriteDb';
 import { useDispatch, useSelector } from 'react-redux';
 import {userLogin} from '../store/userslice'
+import { useState } from 'react';
 
 const SignUp = () => {
   const { register, handleSubmit } = useForm()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-
+  const [error, setError] = useState(null)
 
   const submitForm = async(data) => {
     try {
       const userdata=await userAuth.createAccount(data)
-      dispatch(userLogin(userdata))
-      alert("user is signed up")
-      navigate('/')
+      if(userdata){
+        const session = await userAuth.getUser()
+        dispatch(userLogin(session))
+        alert("user is signed up")
+        navigate('/')
+      }
     } catch (error) {
       console.error(error)
+      setError(error)
     }
   }
 
@@ -37,6 +42,13 @@ const SignUp = () => {
       />
 
       < div className="flex justify-center items-center p-8 sm:p-12 w-full lg:w-1/2" >
+
+        {
+          error&&
+                <p className='text-red-700'>
+                  {error}
+                </p>
+        }
 
         <form onSubmit={handleSubmit(submitForm)} className="w-full max-w-md">
 

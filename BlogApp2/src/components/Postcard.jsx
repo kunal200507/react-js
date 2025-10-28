@@ -23,7 +23,7 @@ function Postcard({
     return (
         <>
             <div
-                className="border border-gray-200 w-1/6 rounded-xl p-5 hover:shadow-lg transition bg-white relative"
+                className="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-white relative"
             >
                 <img
                     src={src}
@@ -58,7 +58,7 @@ function Postcard({
                                 </NavLink>
                             </li>
                             <li className="hover:underline cursor-pointer">
-                                <button onClick={deletePost()}>
+                                <button onClick={deletePost}>
                                     delete Post
                                 </button>
                             </li>

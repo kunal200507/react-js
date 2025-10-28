@@ -1,11 +1,11 @@
-import Createpost from "./Createpost"
+import { useParams } from "react-router"
+import Createpost from "../components/Createpost"
 
 export default function AddPost(){
+    const {userId} = useParams()
     return(
+        
         <div className="w-full h-auto bg-red-50 relative -z-0" >
-            <div className="h-full w-1 bg-black absolute left-3xl">
-
-            </div>
             <div className="min-h-screen flex items-center justify-center bg-gray-50 p-6 flex-col">
                 <div className=" p-8 w-full max-w-2xl">
                     <h2 className="text-2xl font-semibold text-center mb-6">
@@ -13,10 +13,9 @@ export default function AddPost(){
                     </h2>
                 </div>
                 <div className="w-full max-w-2xl">
-                    <Createpost/>
+                    <Createpost urlUserId={userId} />
                 </div>
             </div>
-
         </div>
     )
 }

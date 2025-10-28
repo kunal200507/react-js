@@ -4,7 +4,7 @@ import blogPromoImage from '../assets/BlogLogin.jpg';
 import {Input} from '../components/index'
 import { useForm } from 'react-hook-form';
 import userAuth from '../appwrite/appwriteAuth'
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch } from 'react-redux';
 import {userLogin, userLogout} from '../store/userslice' 
 const Login = () => {
   const navigate = useNavigate()
@@ -12,17 +12,20 @@ const Login = () => {
   const dispatch = useDispatch()
   const [appError,setAppError] = useState(null)
   
-  const login = (data) => {
-    userAuth.userLogin(data)
-    .then((userdata)=>{
-      dispatch(userLogin(userdata));
-      alert("user is logged in")
-      navigate('/')
-    }).catch((error)=>{
+  async function login(data){
+    try {
+      const userdata = await userAuth.userLogin(data)
+      if(userdata){
+        const session = await userAuth.getUser()
+        dispatch(userLogin(session));
+        alert("user is logged in")
+        navigate('/')
+      }
+    } catch (error) {
       console.error(error)
       setAppError(error.AppwriteException)
-    })
-  };  
+    }
+  }
   
   const brandOrange = "#FF8C00"; 
   const brandBlue = "#004D99";   

@@ -12,7 +12,8 @@ class userDatabase {
         this.database = new Databases(this.client)
     }
 
-    async createPost({userId,topic,slug,description,content,imageUrl}) {
+    async createPost({content,description,imageUrl,slug,topic,userId}) {
+        console.log(slug)
         try {
             return await this.database.createDocument(
                 authObj.databaseId,
@@ -38,7 +39,7 @@ class userDatabase {
                 authObj.databaseId,
                 authObj.tableId,
                 slug,
-                Query.equal("userId",[userId])
+                [Query.equal("userId",[userId])]
             ) 
         } catch (error) {
             console.error(error)
@@ -50,14 +51,14 @@ class userDatabase {
             return await this.database.listDocuments(
                 authObj.databaseId,
                 authObj.tableId,
-                Query.equal("userId",[userId])
+                [Query.equal("userId",[userId])]
             )
         } catch (error) {
             console.error(error)
         }
     }
 
-    async updatePost({userId,topic,slug,description,content,imageUrl}){
+    async updatePost({content,description,imageUrl,slug,topic,userId}){
         try {
             return await this.database.updateDocument(
                 authObj.databaseId,
@@ -82,7 +83,7 @@ class userDatabase {
                authObj.databaseId,
                 authObj.tableId,
                 slug,
-                Query.equal("userId",[userId])
+                [Query.equal("userId",[userId])]
             )
         } catch (error) {
             console.error(error)

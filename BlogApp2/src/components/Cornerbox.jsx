@@ -1,16 +1,17 @@
 import {  useState } from "react";
 import userAuth from '../appwrite/appwriteAuth'
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { userLogout} from '../store/userslice'
 import { NavLink, useNavigate } from "react-router";
 const Cornerbox = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [username, setUsername] = useState('')
-    userAuth.getUser()
-    .then((userData)=>{
-        setUsername(userData.name)
-    })
+    const [userId,setUserId] = useState('')
+
+    const userdata = useSelector((state)=>state.appwriteAuthstore.data)
+    setUsername(userdata.name)
+    setUserId(userdata.$id)
 
     const logout = ()=>{
         userAuth.userLogout()
@@ -39,16 +40,9 @@ const Cornerbox = () => {
                         </NavLink>
                     </button>
                 </li>
-                <li >
+                <li>
                     <button className="px-2 py-2 hover:text-orange-500 rounded flex items-center justify-center gap-2 cursor-pointer">
-                        <NavLink to={"/yourposts"} >
-                            Your posts
-                        </NavLink> 
-                    </button>
-                </li>
-                <li >
-                    <button className="px-2 py-2 hover:text-orange-500 rounded flex items-center justify-center gap-2 cursor-pointer">
-                        <NavLink to={"/addpost"} > 
+                        <NavLink to={`/${userId}/addpost`} > 
                             Add post
                         </NavLink> 
                     </button>

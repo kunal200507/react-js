@@ -1,29 +1,43 @@
-import { Input, Button, Editors } from '../components/index.js'
+import { Input, Button, Editors } from './index.js'
 import { useForm } from 'react-hook-form'
 import React, { useState, } from 'react';
 import userdb from '../appwrite/appwriteDb.js'
-import { useSelector } from 'react-redux';
+import { useNavigate } from 'react-router';
 
-function Createpost() {
-
+function Createpost({
+    urlUserId
+}) {
+    const navigate = useNavigate()
     const [imgUrl,setImgUrl] = useState(null)
     const [save,setSave] = useState(false)
+    const [slugError, setSlugError] = useState(false)
     const { register, handleSubmit, control, setValue } = useForm()
     let slug=null;
-    const userdata = useSelector((state)=>state.appwriteAuthstore.data)
     function imagePreview(data){
         setImgUrl(data.imageUrl)
         slug = data.topic.replaceAll(" ","-")
-        setValue("slug",slug,{shouldValidate:true})
-        setSave(true)
+        if(slug.length>=36){
+            setSlugError(true)
+            setSave(false)
+        }else{
+            setSlugError(false)
+            setValue("slug",slug,{shouldValidate:true})
+            setSave(true)
+        }
     }
 
     async function createPost(data) {
-        data.userId = userdata.$id
+        data.userId = urlUserId
+        console.log(data)
         try {
-            const responce = await userdb.createPost(data)
-            alert("posted")
-            console.log(responce)
+            const responce = await userdb.createPost({...data})
+            if(responce){
+                alert("posted")
+                navigate(`/${urlUserId}/yourposts`)
+            }else{
+                alert("try Again")
+            }
+
         } catch (error) {
             console.log(error)
             // alert(error)
@@ -33,6 +47,12 @@ function Createpost() {
     return (
         <form className="space-y-4" onSubmit={
             save?handleSubmit(createPost):handleSubmit(imagePreview)}>
+            {
+                slugError&&
+                    <p className='text-red-600'>
+                        The tittle is too long.
+                    </p>
+            }
             <div>
                 <Input
                     type="text"
@@ -107,7 +127,7 @@ function Createpost() {
                 {save?<Button
                     type={"submit"}
                     text={"post"}
-                    classNameButton={"w-full py-3 text-lg text-white font-bold rounded-lg "}
+                    classNameButton={"bg-orange-500 w-full py-3 text-lg text-white font-bold rounded-lg transition duration-300 shadow-2xl hover:shadow-2xs focus:outline-none focus:ring-4 focus:ring-orange-300 focus:ring-opacity-50 mb-8 cursor-pointer"}
                 />:<Button
                     type={"submit"}
                     text={"save"}
