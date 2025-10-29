@@ -1,16 +1,20 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router';
 import blogPromoImage from '../assets/BlogLogin.jpg'; 
 import {Input} from '../components/index'
 import { useForm } from 'react-hook-form';
-import userAuth from '../appwrite/appwriteAuth'
+import {userAuth,errors} from '../appwrite/appwriteAuth'
 import { useDispatch } from 'react-redux';
-import {userLogin, userLogout} from '../store/userslice' 
+import {userLogin} from '../store/userslice' 
 const Login = () => {
   const navigate = useNavigate()
   const {register,handleSubmit} = useForm()
   const dispatch = useDispatch()
+
   const [appError,setAppError] = useState(null)
+  useEffect(()=>{
+    setAppError(errors.loginError)
+  },[])
   
   async function login(data){
     try {
@@ -22,8 +26,8 @@ const Login = () => {
         navigate('/')
       }
     } catch (error) {
-      console.error(error)
-      setAppError(error.AppwriteException)
+      console.log(error)
+      
     }
   }
   
@@ -50,7 +54,7 @@ const Login = () => {
           >
             Login
           </h2>
-          <p>{appError&&(appError)}</p>
+          <p className='text-red-500'>{appError}</p>
           <div className="mb-6">
             <Input 
             label="Email address" 

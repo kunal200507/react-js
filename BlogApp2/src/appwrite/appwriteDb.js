@@ -33,13 +33,12 @@ class userDatabase {
 
     }
 
-    async getpost(slug,userId) {
+    async getpost(slug) {
         try {
             return await this.database.getDocument(
                 authObj.databaseId,
                 authObj.tableId,
                 slug,
-                [Query.equal("userId",[userId])]
             ) 
         } catch (error) {
             console.error(error)
@@ -77,13 +76,12 @@ class userDatabase {
         }
     }
 
-    async deletePost(slug,userId){
+    async deletePost(slug){
         try {
             return await this.database.deleteDocument(
                authObj.databaseId,
                 authObj.tableId,
                 slug,
-                [Query.equal("userId",[userId])]
             )
         } catch (error) {
             console.error(error)

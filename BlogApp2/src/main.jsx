@@ -32,7 +32,18 @@ const routes = createBrowserRouter([
         path: "/signup",
         element: <Signup />,
       },
-      
+      {
+        path:"/addpost",
+        element:<AddPost/>
+      },
+      {
+        path:"/post/:slug",
+        element:<Post/>
+      },
+      {
+        path:"/updatepost/:slug",
+        element:<Updatepost/>
+      }
     ]
   }
 ])

@@ -6,12 +6,11 @@ function Postcard({
     description,
     src,
     slug,
-    userId
 }) {
 
     async function deletePost(){
         try {
-            await userdb.deletePost(slug,userId)
+            await userdb.deletePost(slug)
         } catch (error) {
             alert("error please try again")
             console.log(error)
@@ -37,11 +36,12 @@ function Postcard({
                     {description}
                 </p>
                 <div className="flex flex-row justify-between items-center" >
-                    <button
+                    <NavLink 
+                        to={`/post/:${slug}`}
                         className="text-blue-600 hover:underline font-medium cursor-pointer"
                     >
                         Read More →
-                    </button>
+                    </NavLink>
                     <button
                         className="w-10 h-10 rounded-full border border-gray-100 cursor-pointer"
                         onClick={() => setCardActivity(!cardActivity)}
@@ -53,12 +53,12 @@ function Postcard({
                     (
                         <ul className="border-2 border-gray-200 bg-white absolute z-5 w-1/2 h-1/4 -right-20 flex flex-col rounded-2xl justify-around items-center top-100% text-blue-600 font-medium">
                             <li className="hover:underline cursor-pointer">
-                                <NavLink to="/update">
+                                <NavLink to= {`/updatepost/:${slug}`}>
                                     update Post
                                 </NavLink>
                             </li>
                             <li className="hover:underline cursor-pointer">
-                                <button onClick={deletePost}>
+                                <button onClick={()=>deletePost()}>
                                     delete Post
                                 </button>
                             </li>

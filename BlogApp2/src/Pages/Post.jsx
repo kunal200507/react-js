@@ -9,9 +9,15 @@ export default function Post() {
     const [content, setContent] = useState("")
     const [name, setName] = useState("")
     const userData = useSelector((state)=>state.appwriteAuthstore.data)
+    let slugId=""
+    if(slug[0]===":"){
+        slugId = slug.replace(":","")
+    }else{
+        slugId=slug
+    }
     useEffect(()=>{
-        userdb.getpost(slug,userData.$id)
-        .then(()=>{
+        userdb.getpost(slugId)
+        .then((postData)=>{
             setTopic(postData.topic)
             setContent(postData.content)
             setName(userData.name)
@@ -27,7 +33,7 @@ export default function Post() {
             
                 <h1 className="text-4xl font-bold text-gray-800 mb-4">{topic}</h1>
 
-                {JSON.parse(content)}
+                <div dangerouslySetInnerHTML={{__html:content}}></div>
 
                 <p className="text-lg italic text-gray-600 mb-6">By <span className="font-semibold">{name}</span></p>
             </div>

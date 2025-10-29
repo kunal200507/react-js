@@ -9,16 +9,24 @@ export default function Updatepost() {
     const { slug } = useParams()
     const navigate = useNavigate()
     const [slugError, setSlugError] = useState(false)
-    const [imgUrl, setImgUrl] = useState(null)
+    const [imgUrl, setImgUrl] = useState("")
     const [save, setSave] = useState(false)
+    const [showPrevImg, setShowPrevImg]= useState(true)
     const [content, setContent] = useState(false)
     const { register, handleSubmit, control, setValue } = useForm()
+    let slugId = "";
+    if(slug[0]===":"){
+        slugId = slug.replace(":","")
+    }else{
+        slugId=slug
+    }
     useEffect(() => {
-        userdb.getpost(slug)
+        userdb.getpost(slugId)
             .then((prevPost) => {
-                setValue("slug", slug, { shouldValidate: true })
+                // setValue("slug", prevPost.$id, { shouldValidate: true })
                 setValue("topic", prevPost.topic, { shouldValidate: true })
-                setValue("Description", prevPost.Description, { shouldValidate: true })
+                setValue("description", prevPost.description, { shouldValidate: true })
+                setValue("imageUrl",prevPost.imageUrl,{shouldValidate:true})
                 setContent(prevPost.content)
                 setImgUrl(prevPost.imageUrl)
             })
@@ -27,17 +35,17 @@ export default function Updatepost() {
                 console.log(error)
             })
     }, [])
-
+    let newSlug = ""
     function imagePreview(data) {
+        setShowPrevImg(false)
         setImgUrl(data.imageUrl)
-        slug = data.topic.replaceAll(" ", "-")
-        if (slug.length >= 36) {
+        newSlug=data.topic.replaceAll(" ", "-")
+        if (newSlug.length >= 36) {
             setSlugError(true)
             setSave(false)
-            navigate("/yourposts")
         } else {
             setSlugError(false)
-            setValue("slug", slug, { shouldValidate: true })
+            setValue("slug", newSlug, { shouldValidate: true })
             setSave(true)
         }
     }
@@ -46,7 +54,7 @@ export default function Updatepost() {
         try {
             const responce = await userdb.updatePost(data)
             alert("post updated")
-            console.log(responce)
+            navigate("/")
         } catch (error) {
             console.log("Error please try again!!")
             console.log(error)
@@ -133,7 +141,7 @@ export default function Updatepost() {
                         </div>
 
                         {
-                            save && <div>
+                            save==!showPrevImg && <div>
                                 <img
                                     src={imgUrl}
                                     alt="Blog-image"

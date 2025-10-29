@@ -13,7 +13,7 @@ const userslice=createSlice({
         },
         userLogout:(state)=>{
             state.isLoggedIn=false
-            state.data=null
+            state.data={}
         },
     }
 })

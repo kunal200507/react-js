@@ -1,6 +1,10 @@
 import authObj from "../appwrite"
 import { Client, Account, ID } from "appwrite";
 
+let errors ={
+    loginError:""
+} 
+
 class authentication {
     client = new Client();
     account;
@@ -33,7 +37,8 @@ class authentication {
             const result = await this.account.createEmailPasswordSession(email, password)
             return result
         } catch (error) {
-            console.error(error)
+            console.log(error.message)
+            errors.loginError = error.message
         }
     }
 
@@ -58,6 +63,5 @@ class authentication {
 };
 
 const userAuth = new authentication
-
-export default userAuth
+export {userAuth,errors} 
 

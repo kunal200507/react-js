@@ -1,5 +1,5 @@
-import {  useState } from "react";
-import userAuth from '../appwrite/appwriteAuth'
+import {  useEffect, useState } from "react";
+import {userAuth} from '../appwrite/appwriteAuth'
 import { useDispatch, useSelector } from 'react-redux';
 import { userLogout} from '../store/userslice'
 import { NavLink, useNavigate } from "react-router";
@@ -7,13 +7,13 @@ const Cornerbox = () => {
     const navigate = useNavigate()
     const dispatch = useDispatch()
     const [username, setUsername] = useState('')
-    const [userId,setUserId] = useState('')
 
     const userdata = useSelector((state)=>state.appwriteAuthstore.data)
-    setUsername(userdata.name)
-    setUserId(userdata.$id)
+    useEffect(()=>{
+        setUsername(userdata.name)
+    },[])
 
-    const logout = ()=>{
+    function logout(){
         userAuth.userLogout()
         .then(()=>{
             dispatch(userLogout())
@@ -42,7 +42,7 @@ const Cornerbox = () => {
                 </li>
                 <li>
                     <button className="px-2 py-2 hover:text-orange-500 rounded flex items-center justify-center gap-2 cursor-pointer">
-                        <NavLink to={`/${userId}/addpost`} > 
+                        <NavLink to={`/addpost`} > 
                             Add post
                         </NavLink> 
                     </button>

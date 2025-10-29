@@ -1,8 +1,8 @@
 import './App.css'
 import {Outlet} from 'react-router'
-import userAuth from './appwrite/appwriteAuth'
+import {userAuth} from './appwrite/appwriteAuth'
 import { useDispatch } from 'react-redux'
-import {userLogin} from './store/userslice'
+import {userLogin, userLogout} from './store/userslice'
 import {Header,Footer} from './components/index'
 import { useEffect, useState } from 'react'
 
@@ -14,7 +14,11 @@ function App() {
   useEffect(()=>{
     userAuth.getUser()
     .then((userData)=>{
-      dispatch(userLogin(userData))
+      if(userData){
+        dispatch(userLogin(userData))
+      }else{
+        dispatch(userLogout())
+      }
     })
     .catch((error)=>{
       console.error(error)

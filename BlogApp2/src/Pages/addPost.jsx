@@ -2,7 +2,6 @@ import { useParams } from "react-router"
 import Createpost from "../components/Createpost"
 
 export default function AddPost(){
-    const {userId} = useParams()
     return(
         
         <div className="w-full h-auto bg-red-50 relative -z-0" >
@@ -13,7 +12,7 @@ export default function AddPost(){
                     </h2>
                 </div>
                 <div className="w-full max-w-2xl">
-                    <Createpost urlUserId={userId} />
+                    <Createpost />
                 </div>
             </div>
         </div>

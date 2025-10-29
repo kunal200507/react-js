@@ -3,10 +3,10 @@ import { useForm } from 'react-hook-form'
 import React, { useState, } from 'react';
 import userdb from '../appwrite/appwriteDb.js'
 import { useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
-function Createpost({
-    urlUserId
-}) {
+function    Createpost() {
+    const userdata = useSelector((state)=>state.appwriteAuthstore.data)
     const navigate = useNavigate()
     const [imgUrl,setImgUrl] = useState(null)
     const [save,setSave] = useState(false)
@@ -27,13 +27,13 @@ function Createpost({
     }
 
     async function createPost(data) {
-        data.userId = urlUserId
+        data.userId = userdata.$id
         console.log(data)
         try {
             const responce = await userdb.createPost({...data})
             if(responce){
                 alert("posted")
-                navigate(`/${urlUserId}/yourposts`)
+                navigate(`/`)
             }else{
                 alert("try Again")
             }

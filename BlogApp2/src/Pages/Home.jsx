@@ -23,7 +23,7 @@ export default function Home() {
         })
     }
 
-  }, [userdata])
+  }, [])
 
   if (userState) {
     return (
@@ -48,7 +48,7 @@ export default function Home() {
                           description={post.description}
                           src={post.imageUrl}
                           userId={userdata.$id}
-                          slug={post.slug}
+                          slug={post.$id}
                         />
                       </li>
                     ))
