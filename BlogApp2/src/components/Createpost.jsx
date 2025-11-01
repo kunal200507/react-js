@@ -28,6 +28,7 @@ function    Createpost() {
 
     async function createPost(data) {
         data.userId = userdata.$id
+        data.name = userdata.name
         console.log(data)
         try {
             const responce = await userdb.createPost({...data})

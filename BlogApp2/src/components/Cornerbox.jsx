@@ -14,20 +14,24 @@ const Cornerbox = () => {
     },[])
 
     function logout(){
-        userAuth.userLogout()
-        .then(()=>{
-            dispatch(userLogout())
-            alert("user logout")
-            navigate('/')
-        })
-        .catch((error)=>{
-            alert(error)
-        })
+        if(confirm("do you want to log out")){
+            userAuth.userLogout()
+            .then(()=>{
+                dispatch(userLogout())
+                alert("user logout")
+                navigate('/')
+            })
+            .catch((error)=>{
+                alert(error)
+            })
+        }else{
+            null
+        }
     }
     return (
-        <div className="w-60 bg-white text-black rounded-lg shadow-lg p-2">
+        <div className="sm:w-60 w-screen bg-slate-50 sm:bg-white text-black rounded-lg shadow-lg p-2">
             {/* Profile header */}
-            <div className="flex items-center justify-center gap-2 p-2 border-b border-gray-700">
+            <div className="flex items-center sm:justify-center justify-start gap-2 p-2 border-b border-gray-700">
                 <span className="hover:text-orange-500 font-semibold">{username}</span>
             </div>
 
@@ -44,6 +48,13 @@ const Cornerbox = () => {
                     <button className="px-2 py-2 hover:text-orange-500 rounded flex items-center justify-center gap-2 cursor-pointer">
                         <NavLink to={`/addpost`} > 
                             Add post
+                        </NavLink> 
+                    </button>
+                </li>
+                <li>
+                    <button className="sm:hidden px-2 py-2 hover:text-orange-500 rounded flex items-center justify-center gap-2 cursor-pointer">
+                        <NavLink to={`/allposts`} > 
+                            All post
                         </NavLink> 
                     </button>
                 </li>

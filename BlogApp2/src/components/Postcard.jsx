@@ -1,6 +1,7 @@
 import { useState } from "react"
-import { NavLink } from "react-router"
+import { NavLink, useNavigate } from "react-router"
 import userdb from "../appwrite/appwriteDb"
+import { useSelector } from "react-redux"
 function Postcard({
     tittle,
     description,
@@ -8,16 +9,26 @@ function Postcard({
     slug,
 }) {
 
-    async function deletePost(){
-        try {
-            await userdb.deletePost(slug)
-        } catch (error) {
-            alert("error please try again")
-            console.log(error)
+    const navigate = useNavigate()
+
+    async function deletePost() {
+        if(confirm("do you want to delete this post")){
+            try {
+                await userdb.deletePost(slug)
+                alert("post deleted")
+                navigate("/")
+            } catch (error) {
+                alert("error please try again")
+                console.log(error)
+            }
+        }else{
+            null
         }
     }
 
     const [cardActivity, setCardActivity] = useState(false)
+
+    const userstate = useSelector((state) => state.appwriteAuthstore.isLoggedIn)
 
     return (
         <>
@@ -36,28 +47,28 @@ function Postcard({
                     {description}
                 </p>
                 <div className="flex flex-row justify-between items-center" >
-                    <NavLink 
+                    <NavLink
                         to={`/post/:${slug}`}
                         className="text-blue-600 hover:underline font-medium cursor-pointer"
                     >
                         Read More →
                     </NavLink>
-                    <button
+                    {userstate && (<button
                         className="w-10 h-10 rounded-full border border-gray-100 cursor-pointer"
                         onClick={() => setCardActivity(!cardActivity)}
                     >
                         :
-                    </button>
+                    </button>)}
                 </div>
                 {cardActivity &&
                     (
                         <ul className="border-2 border-gray-200 bg-white absolute z-5 w-1/2 h-1/4 -right-20 flex flex-col rounded-2xl justify-around items-center top-100% text-blue-600 font-medium">
                             <li className="hover:underline cursor-pointer">
-                                <NavLink to= {`/updatepost/:${slug}`}>
+                                <NavLink to={`/updatepost/:${slug}`}>
                                     update Post
                                 </NavLink>
                             </li>
-                            <li className="hover:underline cursor-pointer">
+                            <li className=" hover:underline cursor-pointer">
                                 <button onClick={()=>deletePost()}>
                                     delete Post
                                 </button>

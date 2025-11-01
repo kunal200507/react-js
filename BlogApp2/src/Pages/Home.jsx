@@ -21,6 +21,15 @@ export default function Home() {
           alert("error please try again")
           console.log(error)
         })
+    } else {
+      userdb.getSixPosts()
+        .then((responce) => {
+          setPostArr(responce.documents)
+        })
+        .catch((error) => {
+          alert("error please try again")
+          console.log(error)
+        })
     }
 
   }, [])
@@ -82,13 +91,13 @@ export default function Home() {
 
           <div className="flex justify-center space-x-4">
             <Link
-              to="/write"
+              to="/login"
               className="bg-blue-600 hover:bg-blue-700 text-white px-6 py-3 rounded-lg font-medium transition"
             >
               ✍️ Start Writing
             </Link>
             <Link
-              to="/blogs"
+              to="/allposts"
               className="border border-gray-300 hover:bg-gray-100 text-gray-800 px-6 py-3 rounded-lg font-medium transition"
             >
               📖 Read Blogs
@@ -96,45 +105,38 @@ export default function Home() {
           </div>
         </section>
 
-        {/* Divider */}
         <hr className="border-gray-200 my-10 w-11/12 mx-auto" />
 
-        {/* Latest Blogs Section */}
         <section className="max-w-6xl mx-auto px-6 pb-20">
           <h2 className="text-2xl font-semibold mb-6 text-gray-800 text-center">
             ✨ Latest Blogs
           </h2>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
-            {/* Blog Card Example */}
-            {[1, 2, 3, 4, 5, 6].map((i) => (
-              <div
-                key={i}
-                className="border border-gray-200 rounded-xl p-5 hover:shadow-lg transition bg-white"
-              >
-                <img
-                  src={`https://source.unsplash.com/random/400x250?sig=${i}&blog`}
-                  alt="Blog"
-                  className="rounded-lg mb-4 w-full h-48 object-cover"
-                />
-                <h3 className="text-lg font-semibold mb-2">
-                  Blog Title {i}
-                </h3>
-                <p className="text-sm text-gray-600 mb-3">
-                  A short description or excerpt from the blog goes here to attract readers.
+          {
+            postArr.length > 0 ? (
+              <ul className="grid m-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
+                {
+                  postArr.map((post) => (
+                    <li className="" key={post.topic}>
+                      <Postcard
+                        tittle={post.topic}
+                        description={post.description}
+                        src={post.imageUrl}
+                        slug={post.$id}
+                      />
+                    </li>
+                  ))
+                }
+              </ul>
+            ) : (
+              <div className="flex flex-row justify-center items-center">
+                <p className="text-3xl text-gray-500 font-medium ">
+                  No posts...
                 </p>
-                <Link
-                  to={`/blog/${i}`}
-                  className="text-blue-600 hover:underline font-medium"
-                >
-                  Read More →
-                </Link>
               </div>
-            ))}
-          </div>
+            )
+          }
         </section>
 
-        {/* Call to Action */}
         <section className="bg-gray-50 py-16 text-center">
           <h2 className="text-3xl font-bold mb-4 text-gray-900">
             Ready to Share Your Story?
@@ -143,7 +145,7 @@ export default function Home() {
             Join thousands of writers making their mark on WriteIt.
           </p>
           <Link
-            to="/write"
+            to="/login"
             className="bg-blue-600 hover:bg-blue-700 text-white px-8 py-3 rounded-lg font-medium transition"
           >
             Start Writing Now →

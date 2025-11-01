@@ -13,6 +13,7 @@ import Post from './Pages/Post.jsx'
 import Updatepost from './Pages/UpdatePost.jsx'
 import { useSelector } from "react-redux"
 import { Loader } from "./components/index.js"
+import AllPosts from './Pages/AllPosts.jsx'
 
 
 const routes = createBrowserRouter([
@@ -43,6 +44,10 @@ const routes = createBrowserRouter([
       {
         path:"/updatepost/:slug",
         element:<Updatepost/>
+      },
+      {
+        path:"/allposts",
+        element:<AllPosts/>
       }
     ]
   }

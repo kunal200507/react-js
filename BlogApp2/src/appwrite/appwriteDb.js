@@ -12,7 +12,7 @@ class userDatabase {
         this.database = new Databases(this.client)
     }
 
-    async createPost({content,description,imageUrl,slug,topic,userId}) {
+    async createPost({content,description,imageUrl,slug,topic,userId,name}) {
         console.log(slug)
         try {
             return await this.database.createDocument(
@@ -24,7 +24,8 @@ class userDatabase {
                     userId,
                     description,
                     content,
-                    imageUrl
+                    imageUrl,
+                    name
                 }
             )  
         } catch (error) {
@@ -57,7 +58,7 @@ class userDatabase {
         }
     }
 
-    async updatePost({content,description,imageUrl,slug,topic,userId}){
+    async updatePost({content,description,imageUrl,slug,topic,userId,name}){
         try {
             return await this.database.updateDocument(
                 authObj.databaseId,
@@ -68,7 +69,8 @@ class userDatabase {
                     userId,
                     description,
                     content,
-                    imageUrl
+                    imageUrl,
+                    name
                 }
             )
         } catch (error) {
@@ -85,6 +87,29 @@ class userDatabase {
             )
         } catch (error) {
             console.error(error)
+        }
+    }
+
+    async getAllPostsbyAllUsers(){
+        try {
+            return await this.database.listDocuments(
+                authObj.databaseId,
+                authObj.tableId,
+            )
+        } catch (error) {
+            console.error(error)
+        }
+    }
+
+    async getSixPosts(){
+        try {
+            return await this.database.listDocuments(
+                authObj.databaseId,
+                authObj.tableId,
+                [Query.limit(6)]
+            )
+        } catch (error) {
+            console.log(error)
         }
     }
 

@@ -33,13 +33,8 @@ const SignUp = () => {
   const linkBlue = "#007BFF";
 
   return (
-    <div className='min-h-screen flex flex-col lg:flex-row bg-white'>
-      <img
-        src={blogPromoImage}
-        alt="Illustration of a person using a blog app"
-        className="w-full lg:w-1/2 h-auto max-h-96 lg:max-h-full object-contain rounded-lg shadow-lg"
-      />
-
+    <div className='min-h-screen flex flex-col justify-center items-center lg:flex-row bg-white'>
+      
       < div className="flex justify-center items-center p-8 sm:p-12 w-full lg:w-1/2" >
 
         {
@@ -49,7 +44,7 @@ const SignUp = () => {
                 </p>
         }
 
-        <form onSubmit={handleSubmit(submitForm)} className="w-full max-w-md">
+        <form onSubmit={handleSubmit(submitForm)} className=" w-full max-w-md">
 
           {/* Title "Sign In" */}
           <h2

@@ -8,7 +8,7 @@ export default function Post() {
     const [topic, setTopic] = useState("")
     const [content, setContent] = useState("")
     const [name, setName] = useState("")
-    const userData = useSelector((state)=>state.appwriteAuthstore.data)
+    // const userData = useSelector((state)=>state.appwriteAuthstore.data)
     let slugId=""
     if(slug[0]===":"){
         slugId = slug.replace(":","")
@@ -20,7 +20,7 @@ export default function Post() {
         .then((postData)=>{
             setTopic(postData.topic)
             setContent(postData.content)
-            setName(userData.name)
+            setName(postData.name)
         })
         .catch((error)=>{
             console.log(error)
