@@ -1,4 +1,3 @@
-import { useParams } from "react-router"
 import Createpost from "../components/Createpost"
 
 export default function AddPost(){

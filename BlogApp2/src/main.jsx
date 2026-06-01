@@ -11,8 +11,6 @@ import store from './store/store.js'
 import AddPost from './Pages/addPost.jsx'
 import Post from './Pages/Post.jsx'
 import Updatepost from './Pages/UpdatePost.jsx'
-import { useSelector } from "react-redux"
-import { Loader } from "./components/index.js"
 import AllPosts from './Pages/AllPosts.jsx'
 
 

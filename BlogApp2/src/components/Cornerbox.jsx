@@ -9,9 +9,11 @@ const Cornerbox = () => {
     const [username, setUsername] = useState('')
 
     const userdata = useSelector((state)=>state.appwriteAuthstore.data)
-    useEffect(()=>{
-        setUsername(userdata.name)
-    },[])
+    useEffect(() => {
+        if (userdata?.name) {
+            setUsername(userdata.name)
+        }
+    }, [userdata?.name])
 
     function logout(){
         if(confirm("do you want to log out")){

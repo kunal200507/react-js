@@ -27,7 +27,7 @@ function App() {
       setLoader(false)
     })
 
-  },[])
+  }, [dispatch])
 
   if(loader){
     return(

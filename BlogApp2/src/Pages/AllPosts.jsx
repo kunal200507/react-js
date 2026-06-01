@@ -1,18 +1,19 @@
 import { useEffect, useState } from "react";
 import userdb from "../appwrite/appwriteDb";
-import { Postcard } from "../components";
+import {Error, Postcard} from "../components/index.js"
 
 export default function AllPosts() {
 
     const [allPosts, setAllPosts] = useState([])
+    const [errMessage, seterrMessage] = useState("")
 
     useEffect(() => {
         userdb.getAllPostsbyAllUsers()
             .then((postData) => {
-                setAllPosts(postData.documents)
-                console.log(postData.documents)
+                setAllPosts(postData?.documents ?? [])
             })
-            .catch((error)=>{
+            .catch((error) => {
+                seterrMessage(String(error))
                 alert("please try again")
             })
     }, [])
@@ -25,6 +26,9 @@ export default function AllPosts() {
             </section>
 
             <hr className="border-gray-200 my-10 w-11/12 mx-auto" />
+            {
+                errMessage ? <Error/> : null
+            }
             <div className="min-h-screen p-10">
                 <div className="min-h-1/2 w-full flex flex-col justify-center items-center " >
                     {
@@ -32,7 +36,7 @@ export default function AllPosts() {
                             <ul className="grid m-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                                 {
                                     allPosts.map((post) => (
-                                        <li key={post.topic}>
+                                        <li key={post.$id}>
                                             <Postcard
                                                 tittle={post.topic}
                                                 description={post.description}
@@ -56,4 +60,3 @@ export default function AllPosts() {
         </div>
     )
 }
-

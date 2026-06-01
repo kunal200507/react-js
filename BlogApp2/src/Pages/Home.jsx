@@ -11,28 +11,26 @@ export default function Home() {
   const [postArr, setPostArr] = useState([])
 
   useEffect(() => {
-
-    if (userState) {
+    if (userState && userdata?.$id) {
       userdb.getAllPost(userdata.$id)
         .then((responce) => {
-          setPostArr(responce.documents)
+          setPostArr(responce?.documents ?? [])
         })
         .catch((error) => {
           alert("error please try again")
           console.log(error)
         })
-    } else {
+    } else if (!userState) {
       userdb.getSixPosts()
         .then((responce) => {
-          setPostArr(responce.documents)
+          setPostArr(responce?.documents ?? [])
         })
         .catch((error) => {
           alert("error please try again")
           console.log(error)
         })
     }
-
-  }, [])
+  }, [userState, userdata?.$id])
 
   if (userState) {
     return (
@@ -42,7 +40,6 @@ export default function Home() {
           <p className="text-7xl text-gray-500 font-medium">Your Posts</p>
         </section>
 
-        {/* Divider */}
         <hr className="border-gray-200 my-10 w-11/12 mx-auto" />
         <div className="min-h-screen p-10">
           <div className="min-h-1/2 w-full flex flex-col justify-center items-center " >
@@ -51,12 +48,11 @@ export default function Home() {
                 <ul className="grid m-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
                   {
                     postArr.map((post) => (
-                      <li className="" key={post.topic}>
+                      <li className="" key={post.$id}>
                         <Postcard
                           tittle={post.topic}
                           description={post.description}
                           src={post.imageUrl}
-                          userId={userdata.$id}
                           slug={post.$id}
                         />
                       </li>
@@ -116,7 +112,7 @@ export default function Home() {
               <ul className="grid m-8 grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 {
                   postArr.map((post) => (
-                    <li className="" key={post.topic}>
+                    <li className="" key={post.$id}>
                       <Postcard
                         tittle={post.topic}
                         description={post.description}

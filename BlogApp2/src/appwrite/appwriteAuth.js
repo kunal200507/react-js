@@ -1,9 +1,20 @@
 import authObj from "../appwrite"
 import { Client, Account, ID } from "appwrite";
 
-let errors ={
-    loginError:""
-} 
+const errors = {
+    type: "",
+    errorMessage: ""
+}
+
+function setError(type, message) {
+    errors.type = type
+    errors.errorMessage = message
+}
+
+function clearErrors() {
+    errors.type = ""
+    errors.errorMessage = ""
+}
 
 class authentication {
     client = new Client();
@@ -16,7 +27,8 @@ class authentication {
         this.account = new Account(this.client)
     }
 
-    async createAccount({email, password,name}) {
+    async createAccount({email, password, name}) {
+        clearErrors()
         try {
             const user = await this.account.create(
                 ID.unique(),
@@ -24,44 +36,44 @@ class authentication {
                 password,
                 name
             )
-
             return user
-
         } catch (error) {
-            console.error(error) 
+            console.error(error)
+            setError("signUp", error.message)
+            return null
         }
     }
 
     async userLogin({email, password}) {
+        clearErrors()
         try {
-            const result = await this.account.createEmailPasswordSession(email, password)
-            return result
+            return await this.account.createEmailPasswordSession(email, password)
         } catch (error) {
-            console.log(error.message)
-            errors.loginError = error.message
+            console.error(error.message)
+            setError("login", error.message)
+            return null
         }
     }
 
     async userLogout() {
+        clearErrors()
         try {
-            const logout = await this.account.deleteSessions()
-            return logout
+            return await this.account.deleteSessions()
         } catch (error) {
             console.error(error)
+            setError("logout", error.message)
+            return null
         }
     }
-
 
     async getUser(){
         try {
-            const user = await this.account.get()
-            return user
-        } catch (error) {
-            console.error(error)
+            return await this.account.get()
+        } catch {
+            return null
         }
     }
-};
+}
 
-const userAuth = new authentication
-export {userAuth,errors} 
-
+const userAuth = new authentication()
+export { userAuth, errors, clearErrors }

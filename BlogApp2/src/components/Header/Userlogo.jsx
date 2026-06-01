@@ -6,12 +6,13 @@ function Userlogo() {
 
     const [showCornerBox, setShowCornerBox] = useState(false);
     const [firstLetter, setFirstLetter] = useState("")
-    const [rgb,setrgb] = useState("")
     const name = useSelector((state) => state.appwriteAuthstore.data).name
 
     useEffect(() => {
-        setFirstLetter(name[0])
-    }, [])
+        if (name) {
+            setFirstLetter(name[0])
+        }
+    }, [name])
 
 
     return (
@@ -20,7 +21,7 @@ function Userlogo() {
             border-2 border-gray-400 h-8 w-8 m-auto rounded-full cursor-pointer  hover:border-orange-400 text-2xl text-white` } onClick={() => setShowCornerBox(!showCornerBox)} >
                 {firstLetter}
             </button>
-            <div className='absolute sm:top-9 top-12 -left-69.5 z-10 ' >
+            <div className='absolute sm:top-9 top-12 left-53.5 z-10 ' >
                 {showCornerBox && <Cornerbox />}
             </div>
         </div>

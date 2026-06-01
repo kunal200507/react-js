@@ -5,7 +5,7 @@ import userdb from '../appwrite/appwriteDb.js'
 import { useNavigate } from 'react-router';
 import { useSelector } from 'react-redux';
 
-function    Createpost() {
+function Createpost() {
     const userdata = useSelector((state)=>state.appwriteAuthstore.data)
     const navigate = useNavigate()
     const [imgUrl,setImgUrl] = useState(null)
@@ -29,7 +29,7 @@ function    Createpost() {
     async function createPost(data) {
         data.userId = userdata.$id
         data.name = userdata.name
-        console.log(data)
+        //console.log(data)
         try {
             const responce = await userdb.createPost({...data})
             if(responce){

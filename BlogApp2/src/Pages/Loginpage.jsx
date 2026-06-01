@@ -1,61 +1,59 @@
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { useNavigate } from 'react-router';
-import blogPromoImage from '../assets/BlogLogin.jpg'; 
 import {Input} from '../components/index'
 import { useForm } from 'react-hook-form';
-import {userAuth,errors} from '../appwrite/appwriteAuth'
+import {userAuth, errors} from '../appwrite/appwriteAuth'
 import { useDispatch } from 'react-redux';
-import {userLogin} from '../store/userslice' 
+import {userLogin} from '../store/userslice'
+
 const Login = () => {
   const navigate = useNavigate()
   const {register,handleSubmit} = useForm()
   const dispatch = useDispatch()
 
   const [appError,setAppError] = useState(null)
-  useEffect(()=>{
-    setAppError(errors.loginError)
-  },[])
-  
+
   async function login(data){
-    try {
-      const userdata = await userAuth.userLogin(data)
-      if(userdata){
-        const session = await userAuth.getUser()
-        dispatch(userLogin(session));
-        alert("user is logged in")
-        navigate('/')
+    setAppError(null)
+    const session = await userAuth.userLogin(data)
+    if (!session) {
+      if (errors.type === "login") {
+        setAppError(errors.errorMessage)
       }
-    } catch (error) {
-      console.log(error)
-      
+      return
+    }
+    const userdata = await userAuth.getUser()
+    if (userdata) {
+      dispatch(userLogin(userdata));
+      alert("user is logged in")
+      navigate('/')
     }
   }
-  
-  const brandOrange = "#FF8C00"; 
-  const brandBlue = "#004D99";   
-  const linkBlue = "#007BFF";    
+
+  const brandOrange = "#FF8C00";
+  const brandBlue = "#004D99";
+  const linkBlue = "#007BFF";
 
   return (
     <div className="min-h-screen flex flex-col justify-center items-center lg:flex-row bg-white">
 
       <div className="flex justify-center items-center p-8 sm:p-12 w-full lg:w-1/2">
-        
+
         <form onSubmit={handleSubmit(login)} className="w-full max-w-md">
-          
-          {/* Title "Sign In" */}
-          <h2 
-            className="text-4xl font-extrabold mb-10" 
+
+          <h2
+            className="text-4xl font-extrabold mb-10"
             style={{ color: brandBlue }}
           >
             Login
           </h2>
           <p className='text-red-500'>{appError}</p>
           <div className="mb-6">
-            <Input 
-            label="Email address" 
-            type="email" 
-            placeholder="Email address *" 
-            classNameLabel="block text-base font-medium text-gray-700 sr-only" 
+            <Input
+            label="Email address"
+            type="email"
+            placeholder="Email address *"
+            classNameLabel="block text-base font-medium text-gray-700 sr-only"
             classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register('email',{
               required: true,
                 validate: {
@@ -65,18 +63,17 @@ const Login = () => {
           </div>
 
           <div className="mb-6">
-            <Input 
-            label="Password" 
-            type="password" 
-            placeholder="Password *" 
-            classNameLabel="block text-base font-medium text-gray-700 sr-only" 
+            <Input
+            label="Password"
+            type="password"
+            placeholder="Password *"
+            classNameLabel="block text-base font-medium text-gray-700 sr-only"
             classNameInput="w-full py-2 border-b-2 border-gray-300 focus:outline-none focus:border-opacity-100 transition duration-150 text-lg placeholder-gray-500 focus:border-orange-500" {...register("password",{
               required:true
             })}/>
           </div>
-          {/* Login Button */}
-          <button 
-            type="submit" 
+          <button
+            type="submit"
             className="w-full py-3 text-lg text-white font-bold rounded-lg transition duration-300 shadow-2xl hover:shadow-2xs focus:outline-none focus:ring-4 focus:ring-orange-300 focus:ring-opacity-50 mb-8 cursor-pointer"
             style={{ backgroundColor: brandOrange }}
           >
@@ -84,10 +81,10 @@ const Login = () => {
           </button>
 
           <p className="text-center text-base text-gray-700">
-            Don't have an account? 
-            <a 
+            Don't have an account?
+            <a
               className="font-bold hover:underline ml-1 cursor-pointer"
-              style={{ color: linkBlue }} 
+              style={{ color: linkBlue }}
               onClick={()=>navigate('/signup')}
             >
               Create One Now

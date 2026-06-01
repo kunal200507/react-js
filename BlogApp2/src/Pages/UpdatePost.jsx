@@ -1,32 +1,30 @@
 import { Input, Button, Editors } from '../components/index.js'
 import { useForm } from 'react-hook-form'
-import React, { useEffect, useState, } from 'react';
+import { useEffect, useState } from 'react';
 import userdb from '../appwrite/appwriteDb.js'
 import { useParams, useNavigate } from 'react-router';
+import { useSelector } from 'react-redux';
 
 export default function Updatepost() {
 
     const { slug } = useParams()
     const navigate = useNavigate()
+    const userdata = useSelector((state) => state.appwriteAuthstore.data)
     const [slugError, setSlugError] = useState(false)
     const [imgUrl, setImgUrl] = useState("")
     const [save, setSave] = useState(false)
-    const [showPrevImg, setShowPrevImg]= useState(true)
-    const [content, setContent] = useState(false)
+    const [showPrevImg, setShowPrevImg] = useState(true)
+    const [content, setContent] = useState("")
     const { register, handleSubmit, control, setValue } = useForm()
-    let slugId = "";
-    if(slug[0]===":"){
-        slugId = slug.replace(":","")
-    }else{
-        slugId=slug
-    }
+
     useEffect(() => {
-        userdb.getpost(slugId)
+        if (!slug) return
+        userdb.getpost(slug)
             .then((prevPost) => {
-                // setValue("slug", prevPost.$id, { shouldValidate: true })
                 setValue("topic", prevPost.topic, { shouldValidate: true })
                 setValue("description", prevPost.description, { shouldValidate: true })
-                setValue("imageUrl",prevPost.imageUrl,{shouldValidate:true})
+                setValue("imageUrl", prevPost.imageUrl, { shouldValidate: true })
+                setValue("slug", slug, { shouldValidate: true })
                 setContent(prevPost.content)
                 setImgUrl(prevPost.imageUrl)
             })
@@ -34,25 +32,30 @@ export default function Updatepost() {
                 console.log("Error please try again!!")
                 console.log(error)
             })
-    }, [])
-    let newSlug = ""
+    }, [slug, setValue])
+
     function imagePreview(data) {
         setShowPrevImg(false)
         setImgUrl(data.imageUrl)
-        newSlug=data.topic.replaceAll(" ", "-")
+        const newSlug = data.topic.replaceAll(" ", "-")
         if (newSlug.length >= 36) {
             setSlugError(true)
             setSave(false)
         } else {
             setSlugError(false)
-            setValue("slug", newSlug, { shouldValidate: true })
+            setValue("slug", slug, { shouldValidate: true })
             setSave(true)
         }
     }
 
     async function updatePost(data) {
         try {
-            const responce = await userdb.updatePost(data)
+            await userdb.updatePost({
+                ...data,
+                slug,
+                userId: userdata.$id,
+                name: userdata.name,
+            })
             alert("post updated")
             navigate("/")
         } catch (error) {
@@ -141,7 +144,7 @@ export default function Updatepost() {
                         </div>
 
                         {
-                            save==!showPrevImg && <div>
+                            save && !showPrevImg && <div>
                                 <img
                                     src={imgUrl}
                                     alt="Blog-image"

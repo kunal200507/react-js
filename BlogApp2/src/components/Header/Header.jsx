@@ -1,7 +1,7 @@
 import { NavLink, useNavigate } from "react-router"
 import { useSelector } from 'react-redux'
 import { LoginButton, SignupButton, Userlogo } from '../index.js'
-import { useEffect, useState } from "react"
+import { useState } from "react"
 
 function Header() {
     const userState = useSelector((state) => state.appwriteAuthstore.isLoggedIn)
@@ -73,7 +73,7 @@ function Header() {
                                                     </NavLink>
                                                 </li>
                                                 <li className="mr-2 ml-2 hover:underline mb-4">
-                                                    <NavLink to={"signup"} className={({ isActive }) =>
+                                                    <NavLink to={"/signup"} className={({ isActive }) =>
                                                         `${isActive ? "text-gray-900 font-bold" : "text-black"} sm:hidden`
                                                     }>
                                                         SignUp
@@ -86,6 +86,7 @@ function Header() {
                             }
                         </button>
                     </div>)}
+                    {/*for light and dark mode*/ }
                     {userState ? (<div className=" m-2 h-14 pt-2"  >
                         <Userlogo />
                     </div>) : (<div className="hidden lg:flex lg:flex-wrap lg:flex-row ">

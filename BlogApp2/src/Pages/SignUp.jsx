@@ -1,8 +1,7 @@
 import { useNavigate } from 'react-router';
-import blogPromoImage from '../assets/BlogLogin.jpg';
-import { Input } from '../components/index'
+import { Input, Error } from '../components/index'
 import { useForm } from "react-hook-form"
-import {userAuth} from '../appwrite/appwriteAuth'
+import {userAuth,errors} from '../appwrite/appwriteAuth'
 import { useDispatch} from 'react-redux';
 import {userLogin} from '../store/userslice'
 import { useState } from 'react';
@@ -11,20 +10,28 @@ const SignUp = () => {
   const { register, handleSubmit } = useForm()
   const navigate = useNavigate()
   const dispatch = useDispatch()
-  const [error, setError] = useState(null)
-
-  const submitForm = async(data) => {
-    try {
-      const userdata=await userAuth.createAccount(data)
-      if(userdata){
-        const session = await userAuth.getUser()
-        dispatch(userLogin(session))
+  const [errMessage, setErrMessage] = useState(null)
+  const submitForm = async (data) => {
+    setErrMessage(null)
+    const userdata = await userAuth.createAccount(data)
+    if (errors.type === "signUp" && errors.errorMessage) {
+      setErrMessage(errors.errorMessage)
+      return
+    }
+    if (userdata) {
+      const session = await userAuth.userLogin({ email: data.email, password: data.password })
+      if (!session) {
+        if (errors.type === "login") {
+          setErrMessage(errors.errorMessage)
+        }
+        return
+      }
+      const user = await userAuth.getUser()
+      if (user) {
+        dispatch(userLogin(user))
         alert("user is signed up")
         navigate('/')
       }
-    } catch (error) {
-      console.error(error)
-      setError(error)
     }
   }
 
@@ -38,10 +45,11 @@ const SignUp = () => {
       < div className="flex justify-center items-center p-8 sm:p-12 w-full lg:w-1/2" >
 
         {
-          error&&
-                <p className='text-red-700'>
-                  {error}
-                </p>
+          errMessage?
+          <Error
+            errorMessage={errMessage}
+          />
+          :null
         }
 
         <form onSubmit={handleSubmit(submitForm)} className=" w-full max-w-md">
